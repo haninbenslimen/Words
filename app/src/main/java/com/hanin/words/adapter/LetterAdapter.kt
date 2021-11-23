@@ -6,8 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.Button
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.hanin.words.DetailActivity
+import com.hanin.words.LetterListFragmentDirections
 import com.hanin.words.MainActivity
 import com.hanin.words.R
 
@@ -39,7 +40,7 @@ class LetterAdapter :
             .from(parent.context)
             .inflate(R.layout.item_view, parent, false)
         // Setup custom accessibility delegate to set the text read
-        layout.accessibilityDelegate = Accessibility
+        layout.accessibilityDelegate = WordAdapter
         return LetterViewHolder(layout)
     }
 
@@ -51,13 +52,15 @@ class LetterAdapter :
         holder.button.text = item.toString()
         holder.button.setOnClickListener {
 
-            val context = holder.view.context
+           /* val context = holder.view.context
             val intent = Intent(context, DetailActivity::class.java)
             intent.putExtra(DetailActivity.LETTER, holder.button.text.toString())
-            context.startActivity(intent)
-
-
-        }    }
+            context.startActivity(intent)*/
+            val action = LetterListFragmentDirections
+                .actionLetterListFragmentToWordListFragment(letter = holder.button.text.toString())
+            holder.view.findNavController().navigate(action)
+        }
+    }
 
     // Setup custom accessibility delegate to set the text read with
     // an accessibility service
